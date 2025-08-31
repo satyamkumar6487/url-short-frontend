@@ -18,7 +18,7 @@ const NavBar = () => {
       {/* Signup Button */}
       <div>
         <Link
-          to="/signup"
+          to="/register"
           className="bg-white text-pink-600 px-4 py-2 rounded-lg font-semibold shadow hover:bg-gray-100 transition"
         >
           SignUp
