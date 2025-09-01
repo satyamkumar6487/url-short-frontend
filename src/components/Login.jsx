@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { useNavigate } from 'react-router-dom';
 
 
@@ -8,10 +8,14 @@ import TextField from './TextField';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/api';
-const RegisterPage = () => {
+import { useStroreContext } from '../contextApi/ContextApi';
+
+const Login = () => {
 
   const navigate = useNavigate();
   const [loader , setLoader] = useState(false);
+
+  const {setToken} = useStroreContext();
 
 const {
   register,
@@ -27,19 +31,29 @@ const {
   mode:"onTouched"
 });
 
-const registerHandler= async(data)=>{
+const LoginHandler= async(data)=>{
 
   setLoader(true);
   try {
-const {data: response} = await api.post("/api/auth/public/register", data);
+const {data: response} = await api.post("/api/auth/public/login", data);
 
-reset();
-navigate("/login");
-toast.success("Registration Successful!");
+
+// store the token in local storage
+
+console.log(response.token);
+setToken(response.token);
+localStorage.setItem("JWT_TOKEN", JSON.stringify(response.token));
+
+
+
+toast.success("Login  Successful!");
+ reset();
+navigate("/");
+
 
   }  catch (error) {
     console.log(error);
-    toast.error("Registration Failed!");
+    toast.error("Login Failed!");
   }finally{
     setLoader(false);
   } 
@@ -50,12 +64,12 @@ toast.success("Registration Successful!");
 
 className='min-h[calc(100vh-64px)] flex justify-center items-center '>
 
-<form onSubmit={handleSubmit(registerHandler)}
+<form onSubmit={handleSubmit(LoginHandler)}
 
 className='sm-w-[400px] w-full p-4 border border-slate-300 rounded-lg flex flex-col gap-4'>
 
 
-<h2 className='text-2xl font-bold text-center'>Register here </h2>
+<h2 className='text-2xl font-bold text-center'>Login here </h2>
 
 
 <div className="flex flex-col gap-3">
@@ -72,7 +86,7 @@ message="username  is required"
 errors={errors}
 />
 
-<TextField
+{/* <TextField
 label="Email"
 id="email"
 type="email"
@@ -81,7 +95,7 @@ register={register}
 required={true}
 message="Email is required"
 errors={errors}
-/>
+/> */}
 
 <TextField
 label="Password"
@@ -99,15 +113,15 @@ errors={errors}
             disabled={loader}
             type='submit'
             className='w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white px-4 py-2 rounded-lg font-semibold shadow hover:from-purple-700 hover:to-pink-600 transition'>
-            {loader ? "Loading..." : "Register"}
+            {loader ? "Loading..." : "Login"}
           </button>
 
 
 
           <p className='text-center text-sm font-medium'>
-Already have an account? <Link
-to="/login">
-   <span className='text-purple-600 font-semibold'>Login</span> </Link>
+Don't have an Account ? <Link
+to="/register">
+   <span className='text-purple-600 font-semibold'> Signup </span> </Link>
           </p>
 </div>
 
@@ -119,4 +133,4 @@ to="/login">
   )
 }
 
-export default RegisterPage
+export default Login

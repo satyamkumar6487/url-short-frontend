@@ -2,9 +2,12 @@ import React from "react";
 import Card from "./Card";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-
+import {  useStroreContext } from "../contextApi/ContextApi";
 const LandingPage = () => {
   const navigate = useNavigate();
+
+  const {token} =useStroreContext();
+  console.log("Token in landing page" , token);
 
 
 const dashBoardNavigateHandler = () => {
