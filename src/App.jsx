@@ -8,11 +8,16 @@ import Footer from './components/Footer'
 import RegisterPage from './components/RegisterPage'
 import { Toaster } from 'react-hot-toast'
 import Login from './components/Login'
+import DashboardLayout from './components/dashboard/DashboardLayout'
 function App() {
+
+ 
  
 
   return (
     <>
+
+
 
   <Router>
   <NavBar/>
@@ -24,6 +29,7 @@ function App() {
 <Route path='/about' element={<AboutPAge/>}/>
 <Route path='/register' element={<RegisterPage/>}/>
 <Route path='/Login' element={<Login/>}/>
+<Route path='/dashboard' element={<DashboardLayout/>}/>
 
   </Routes>
   <Footer/>

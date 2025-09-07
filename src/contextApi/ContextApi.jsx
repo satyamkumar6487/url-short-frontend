@@ -1,38 +1,28 @@
-import { createContext } from "react";
-import { useState } from "react";
-import { useContext } from "react";
-  const ContextApi =  createContext();
+import { createContext, useState, useContext } from "react";
 
+const ContextApi = createContext();
 
-
-
- export const ContextProvider = ({children})=>{
-  
+export const ContextProvider = ({ children }) => {
   const getToken = localStorage.getItem("JWT_TOKEN")
+    ? JSON.parse(localStorage.getItem("JWT_TOKEN"))
+    : null;
 
-  ? JSON.parse(localStorage.getItem("JWT_TOKEN"))
-  : null;
-
-
-  const [token , setToken] = useState(getToken);
+  const [token, setToken] = useState(getToken);
 
   const sendData = {
     token,
-    setToken
+    setToken,
   };
 
-  return <ContextApi.Provider value={sendData}>{children}</ContextApi.Provider>
-
+  return (
+    <ContextApi.Provider value={sendData}>
+      {children}
+    </ContextApi.Provider>
+  );
 };
 
-
-export  const useStroreContext = () => {
-
+export const useStoreContext = () => {
   const context = useContext(ContextApi);
-
-
-return context;
-}
-
-
+  return context;
+};
 

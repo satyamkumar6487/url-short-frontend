@@ -8,14 +8,15 @@ import TextField from './TextField';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/api';
-import { useStroreContext } from '../contextApi/ContextApi';
+import { useStoreContext } from "../contextApi/ContextApi";
+
 
 const Login = () => {
 
   const navigate = useNavigate();
   const [loader , setLoader] = useState(false);
 
-  const {setToken} = useStroreContext();
+  const {setToken} = useStoreContext();
 
 const {
   register,
@@ -48,7 +49,7 @@ localStorage.setItem("JWT_TOKEN", JSON.stringify(response.token));
 
 toast.success("Login  Successful!");
  reset();
-navigate("/");
+navigate("/dashboard");
 
 
   }  catch (error) {
