@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
-import { useStoreContext } from '../../contextApi/ContextApi';
-import { useForm } from 'react-hook-form';
-import TextField from '../TextField';
-import { Tooltip } from '@mui/material';
-import { RxCross2 } from 'react-icons/rx'; // import add kiya
+
+
+
+import React, { useState } from "react";
+import { useStoreContext } from "../../contextApi/ContextApi";
+import { useForm } from "react-hook-form";
+import TextField from "../TextField";
+import { Tooltip } from "@mui/material";
+import { RxCross2 } from "react-icons/rx";
+import api from "../../api/api";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CreateNewShorten = ({ setOpen, refetch }) => {
   const { token } = useStoreContext();
@@ -16,13 +22,44 @@ const CreateNewShorten = ({ setOpen, refetch }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      OrignalUrl: "",
+      originalUrl: "", 
     },
     mode: "onTouched",
   });
 
   const createShortUrlHandler = async (data) => {
-    // logic here
+    setLoading(true);
+    try {
+      const { data: res } = await api.post(
+        "/api/urls/shorten", 
+        { originalUrl: data.originalUrl }, 
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      const shortenUrl = `${import.meta.env.VITE_REACT_SUBDOMAIN}/${res.shortUrl}`;
+      await navigator.clipboard.writeText(shortenUrl);
+
+      toast.success("Short URL copied to clipboard", {
+        position: "bottom-center",
+        className: "mb-5",
+        duration: 3000,
+      });
+//await refetch();
+      reset();
+      setOpen(false);
+      if (refetch) refetch();
+    } catch (error) {
+      console.error(error);
+      toast.error("Create short URL failed.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -40,7 +77,7 @@ const CreateNewShorten = ({ setOpen, refetch }) => {
           <TextField
             label="Enter URL"
             required
-            id="OrignalUrl"
+            id="originalUrl" 
             placeholder="https://example.com"
             type="url"
             message="url is required"
@@ -51,17 +88,16 @@ const CreateNewShorten = ({ setOpen, refetch }) => {
           <button
             className="bg-blue-600 font-semibold text-white w-full py-2 rounded-md hover:bg-blue-700 transition duration-300 mt-4"
             type="submit"
+            disabled={loading}
           >
             {loading ? "Creating..." : "Create"}
           </button>
         </div>
       </form>
 
-      {/* Close button with tooltip */}
       {!loading && (
         <Tooltip title="Close">
           <button
-            disabled={loading}
             onClick={() => setOpen(false)}
             className="absolute top-2 right-2 text-gray-500 hover:text-red-600 transition duration-300"
           >
