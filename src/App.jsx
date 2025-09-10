@@ -1,26 +1,27 @@
 
 import './App.css'
-import { BrowserRouter  as Router, Route, Routes } from 'react-router-dom'
-import LandingPage from './components/LandingPage'
-import AboutPAge from './components/AboutPAge'
-import NavBar from './components/NavBar'
-import Footer from './components/Footer'
-import RegisterPage from './components/RegisterPage'
-import { Toaster } from 'react-hot-toast'
-import Login from './components/Login'
-import DashboardLayout from './components/dashboard/DashboardLayout'
+import { BrowserRouter  as Router } from 'react-router-dom'
+// import LandingPage from './components/LandingPage'
+// import AboutPAge from './components/AboutPAge'
+// import NavBar from './components/NavBar'
+// import Footer from './components/Footer'
+// import RegisterPage from './components/RegisterPage'
+// import { Toaster } from 'react-hot-toast'
+// import Login from './components/Login'
+// import DashboardLayout from './components/dashboard/DashboardLayout'
+import { getApps } from './utils/helper'
 function App() {
-
- 
+const CurrentApp = getApps(); 
  
 
   return (
-    <>
-
-
 
   <Router>
-  <NavBar/>
+
+
+
+      <CurrentApp />
+  {/* <NavBar/>
   <Toaster position='top-center'/>
   <Routes>
 
@@ -32,11 +33,11 @@ function App() {
 <Route path='/dashboard' element={<DashboardLayout/>}/>
 
   </Routes>
-  <Footer/>
+  <Footer/> */}
   
   </Router>
 
-  </>
+ 
 
   )
 }
