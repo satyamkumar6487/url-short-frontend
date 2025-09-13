@@ -21,3 +21,8 @@ export const getSubDomain = (location) => {
   return locationParts.slice(0, sliceTill).join(".");
 
 };
+
+
+
+
+

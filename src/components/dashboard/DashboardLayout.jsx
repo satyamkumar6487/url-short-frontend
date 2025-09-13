@@ -5,13 +5,15 @@ import { useFetchMyShortUrls, useFetchTotalClicks } from '../../hooks/useQuery.j
 import React, { useState } from 'react';
 import ShortenPopUp from './ShortenPopUp.jsx';
 import ShortenUrlList from './ShortenUrlList.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const DashboardLayout = () => {
+  const navigate = useNavigate();
   const { token } = useStoreContext();
   const [shortenpopup, setShortenpopup] = useState(false);
 
   const onError = (err) => {
-    console.log("ERROR fetching total clicks:", err);
+    console.log("/error");
   };
 
   const { isLoading: urlsLoading, data: myShortenUrls, refetch } = useFetchMyShortUrls(token, onError);
@@ -76,11 +78,6 @@ const DashboardLayout = () => {
 };
 
 export default DashboardLayout;
-
-
-
-
-
 
 
 

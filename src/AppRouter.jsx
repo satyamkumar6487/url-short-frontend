@@ -8,7 +8,8 @@ import RegisterPage from './components/RegisterPage'
 import { Toaster } from 'react-hot-toast'
 import Login from './components/Login'
 import DashboardLayout from './components/dashboard/DashboardLayout'
-import PrivateRoute from "./PrivateRoute"
+import PrivateRoute from "./PrivateRoute" 
+import ErrorPage from "./components/ErrorPage"
 const AppRouter = () => {
   return (
    <>
@@ -23,6 +24,8 @@ const AppRouter = () => {
 <Route path='/Login' element={<PrivateRoute publicPage={true}><Login/></PrivateRoute>}/>
 <Route path='/dashboard' element={<PrivateRoute><DashboardLayout/></PrivateRoute>}/>
 
+<Route path = "/error" element= {<ErrorPage />} />
+<Route path = "*" element= {<ErrorPage message = "we can't seem to find the page you're looking for"/>} />
   </Routes>
   <Footer/>
   
